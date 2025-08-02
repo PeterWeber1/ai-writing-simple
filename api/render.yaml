@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: text-humanization-api
+    env: docker
+    region: oregon
+    plan: starter
+    buildCommand: docker build -t api .
+    startCommand: docker run -p $PORT:8000 api
+    envVars:
+      - key: MODEL_REPO
+        value: google/flan-t5-small
+      - key: API_SECRET
+        value: test-secret
+      - key: HF_TOKEN
+        value: your-huggingface-token 

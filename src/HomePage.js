@@ -114,28 +114,17 @@ function HomePage({
     setIsProcessing(true);
     
     try {
-      // Determine which API endpoint to use based on selected tier and advanced options
-      const endpoint = (selectedTier === 'pro' || selectedTier === 'ultra') && showAdvancedOptions 
-        ? '/api/humanize-advanced' 
-        : '/api/humanize';
-      
-      const requestBody = {
-        text: text,
-        tone: tone,
-        style: writingStyle,
-        targetAudience: targetAudience,
-        length: 'maintain',
-        creativity: 'balanced'
-      };
-      
-      // Use the deployed backend URL (you'll need to update this with your Render URL)
-      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000';
-      const response = await fetch(`${apiUrl}${endpoint}`, {
+      // Use the new FastAPI backend
+      const apiUrl = process.env.REACT_APP_API_URL || 'https://your-render-url.onrender.com';
+      const response = await fetch(`${apiUrl}/humanize`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': 'Bearer test-secret'
         },
-        body: JSON.stringify(requestBody)
+        body: JSON.stringify({
+          text: text
+        })
       });
       
       if (!response.ok) {
@@ -144,13 +133,13 @@ function HomePage({
       
       const result = await response.json();
       
-      if (result.success) {
-        setHumanizedText(result.humanizedText);
+      if (result.humanized) {
+        setHumanizedText(result.humanized);
         
         // Show success message
         alert('Text humanized successfully!');
       } else {
-        throw new Error(result.error || 'Failed to humanize text');
+        throw new Error('Failed to humanize text');
       }
       
     } catch (error) {
