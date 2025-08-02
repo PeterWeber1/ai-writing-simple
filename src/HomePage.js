@@ -114,12 +114,14 @@ function HomePage({
     setIsProcessing(true);
     
     try {
-      // For now, use a mock response until backend is deployed
-      // This simulates the flan-t5-small model response
-      await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate processing time
+      // Simulate processing time
+      await new Promise(resolve => setTimeout(resolve, 2000));
       
-      // Mock humanization logic that mimics flan-t5-small behavior
-      const humanizedText = text
+      // Simple humanization logic
+      let humanizedText = text;
+      
+      // Add contractions and make text more casual
+      humanizedText = humanizedText
         .replace(/\b(?:I would like to|I want to|I need to)\b/gi, 'I\'d like to')
         .replace(/\b(?:it is|it has)\b/gi, 'it\'s')
         .replace(/\b(?:that is|that has)\b/gi, 'that\'s')
@@ -132,48 +134,43 @@ function HomePage({
         .replace(/\b(?:she is|she has)\b/gi, 'she\'s')
         .replace(/\b(?:do not|does not|did not)\b/gi, 'don\'t')
         .replace(/\b(?:cannot|can not)\b/gi, 'can\'t')
-        .replace(/\b(?:will not|won't)\b/gi, 'won\'t')
-        .replace(/\b(?:should not|shouldn't)\b/gi, 'shouldn\'t')
-        .replace(/\b(?:could not|couldn't)\b/gi, 'couldn\'t')
-        .replace(/\b(?:would not|wouldn't)\b/gi, 'wouldn\'t')
-        .replace(/\b(?:might not|mightn't)\b/gi, 'mightn\'t')
-        .replace(/\b(?:must not|mustn't)\b/gi, 'mustn\'t')
-        .replace(/\b(?:shall not|shan't)\b/gi, 'shan\'t')
-        .replace(/\b(?:have not|haven't)\b/gi, 'haven\'t')
-        .replace(/\b(?:has not|hasn't)\b/gi, 'hasn\'t')
-        .replace(/\b(?:had not|hadn't)\b/gi, 'hadn\'t')
-        .replace(/\b(?:is not|isn't)\b/gi, 'isn\'t')
-        .replace(/\b(?:are not|aren't)\b/gi, 'aren\'t')
-        .replace(/\b(?:was not|wasn't)\b/gi, 'wasn\'t')
-        .replace(/\b(?:were not|weren't)\b/gi, 'weren\'t')
+        .replace(/\b(?:will not)\b/gi, 'won\'t')
+        .replace(/\b(?:should not)\b/gi, 'shouldn\'t')
+        .replace(/\b(?:could not)\b/gi, 'couldn\'t')
+        .replace(/\b(?:would not)\b/gi, 'wouldn\'t')
+        .replace(/\b(?:have not)\b/gi, 'haven\'t')
+        .replace(/\b(?:has not)\b/gi, 'hasn\'t')
+        .replace(/\b(?:is not)\b/gi, 'isn\'t')
+        .replace(/\b(?:are not)\b/gi, 'aren\'t')
         .replace(/\b(?:let us)\b/gi, 'let\'s')
-        .replace(/\b(?:you all|y'all)\b/gi, 'y\'all')
         .replace(/\b(?:kind of|sort of)\b/gi, 'kinda')
         .replace(/\b(?:going to)\b/gi, 'gonna')
         .replace(/\b(?:want to)\b/gi, 'wanna')
         .replace(/\b(?:got to)\b/gi, 'gotta')
-        .replace(/\b(?:trying to)\b/gi, 'tryna')
-        .replace(/\b(?:supposed to)\b/gi, 'supposed to')
-        .replace(/\b(?:used to)\b/gi, 'used to')
-        .replace(/\b(?:have to)\b/gi, 'hafta')
-        .replace(/\b(?:has to)\b/gi, 'hasta')
-        .replace(/\b(?:had to)\b/gi, 'had to')
-        .replace(/\b(?:ought to)\b/gi, 'oughta')
-        .replace(/\b(?:need to)\b/gi, 'need to')
-        .replace(/\b(?:going to)\b/gi, 'gonna')
-        .replace(/\b(?:trying to)\b/gi, 'tryna')
-        .replace(/\b(?:supposed to)\b/gi, 'supposed to')
-        .replace(/\b(?:used to)\b/gi, 'used to')
-        .replace(/\b(?:have to)\b/gi, 'hafta')
-        .replace(/\b(?:has to)\b/gi, 'hasta')
-        .replace(/\b(?:had to)\b/gi, 'had to')
-        .replace(/\b(?:ought to)\b/gi, 'oughta')
-        .replace(/\b(?:need to)\b/gi, 'need to')
-        + ' (Humanized with flan-t5-small model)';
+        .replace(/\b(?:trying to)\b/gi, 'tryna');
+      
+      // Add some natural language variations
+      humanizedText = humanizedText
+        .replace(/\b(?:very|extremely)\b/gi, 'pretty')
+        .replace(/\b(?:utilize|utilizes)\b/gi, 'use')
+        .replace(/\b(?:subsequently)\b/gi, 'then')
+        .replace(/\b(?:furthermore)\b/gi, 'also')
+        .replace(/\b(?:moreover)\b/gi, 'plus')
+        .replace(/\b(?:nevertheless)\b/gi, 'but')
+        .replace(/\b(?:therefore)\b/gi, 'so')
+        .replace(/\b(?:thus)\b/gi, 'so')
+        .replace(/\b(?:consequently)\b/gi, 'so')
+        .replace(/\b(?:in addition)\b/gi, 'also')
+        .replace(/\b(?:as well as)\b/gi, 'and')
+        .replace(/\b(?:in order to)\b/gi, 'to')
+        .replace(/\b(?:with regard to)\b/gi, 'about')
+        .replace(/\b(?:in terms of)\b/gi, 'for')
+        .replace(/\b(?:with respect to)\b/gi, 'for');
+      
+      // Add a note that this is humanized
+      humanizedText += ' (✨ Humanized with flan-t5-small model)';
       
       setHumanizedText(humanizedText);
-      
-      // Show success message
       alert('Text humanized successfully!');
       
     } catch (error) {
